@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UndirectedGraphRepository extends JpaRepository<UndirectedGraph,Long> {
-    @Query(nativeQuery = true,value = "select id, graphName,numVertices, customerId from undirected_graph  where customerId = 3 and graphName = 'BFS' order by id DESC limit 1 ")
+    @Query(nativeQuery = true,value = "select id, graphName,numVertices, customerId from undirected_graph  where customerId = ?1 and graphName = ?2 order by id DESC limit 1 ")
     UndirectedGraph getLastGraphByCustomerIdAndGraphName(Long customerId, String graphName);
 
     @Transactional

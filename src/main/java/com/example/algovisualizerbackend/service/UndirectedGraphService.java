@@ -1,5 +1,6 @@
 package com.example.algovisualizerbackend.service;
 
+import com.example.algovisualizerbackend.model.Node;
 import com.example.algovisualizerbackend.model.UndirectedGraph;
 import com.example.algovisualizerbackend.model.UnweightedEdge;
 import com.example.algovisualizerbackend.repository.UndirectedGraphRepository;
@@ -16,21 +17,31 @@ public class UndirectedGraphService {
     private UndirectedGraphRepository undirectedGraphRepository;
 
     @Autowired
-    private UnweightedEdgeRepository unweightedEdgeRepository;
+    private UnweightedEdgeService unweightedEdgeService;
+
+    @Autowired
+    private NodeService nodeService;
 
     public void saveGraph(UndirectedGraph graph){
         undirectedGraphRepository.saveGraph(graph.getGraphName(),graph.getNumVertices(),graph.getCustomerId());
         UndirectedGraph newGraph=undirectedGraphRepository.getLastGraphByCustomerIdAndGraphName(graph.getCustomerId(),graph.getGraphName());
-        for(UnweightedEdge edge:newGraph.getEdges()){
+        for(UnweightedEdge edge:graph.getEdges()){
             edge.setGraphId(newGraph.getId());
         }
-        unweightedEdgeRepository.saveAll(newGraph.getEdges());
+        unweightedEdgeService.saveEdges(graph.getEdges());
+
+        for(Node node: graph.getNodes()){
+            node.setGraphId(newGraph.getId());
+        }
+        nodeService.saveNodes(graph.getNodes());
     }
 
     public UndirectedGraph LoadLastGraph(Long customerId, String graphName){
         UndirectedGraph graph=undirectedGraphRepository.getLastGraphByCustomerIdAndGraphName(customerId, graphName);
-        List<UnweightedEdge> edges=unweightedEdgeRepository.searchEdgesByGraphId(graph.getId());
+        List<UnweightedEdge> edges=unweightedEdgeService.searchEdgesByGraphId(graph.getId());
         graph.setEdges(edges);
+        List<Node> nodes=nodeService.searchNodesByGraphId(graph.getId());
+        graph.setNodes(nodes);
         return graph;
     }
 }

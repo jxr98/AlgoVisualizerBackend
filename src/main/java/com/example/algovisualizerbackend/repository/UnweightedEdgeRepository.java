@@ -10,6 +10,11 @@ import java.util.List;
 
 public interface UnweightedEdgeRepository extends JpaRepository<UnweightedEdge,Long> {
 
-    @Query(nativeQuery = true, value="select e.source,e.target from unweighted_edge e where e.graph_id=?1")
+    @Query(nativeQuery = true, value="select * from unweighted_edge e where e.graph_id=?1")
     List<UnweightedEdge> searchEdgesByGraphId(Long graphId);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "insert into unweighted_edge (source, target,graph_id) values (?1, ?2, ?3) ")
+    void saveGraphEdge(Integer source,Integer target, Long graphId);
 }

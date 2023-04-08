@@ -13,7 +13,9 @@ public class UnweightedEdgeService {
     private UnweightedEdgeRepository unweightedEdgeRepository;
 
     public void saveEdges(List<UnweightedEdge> edges){
-        unweightedEdgeRepository.saveAll(edges);
+        for(UnweightedEdge edge:edges){
+            unweightedEdgeRepository.saveGraphEdge(edge.getSource(),edge.getTarget(),edge.getGraphId());
+        }
     }
 
     public List<UnweightedEdge> searchEdgesByGraphId(Long graphId){

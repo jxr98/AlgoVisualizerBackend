@@ -13,18 +13,19 @@ public class UndirectedGraph {
     public UndirectedGraph() {
     }
 
-    public UndirectedGraph(String graphName, Long customerId, Integer numVertices, List<UnweightedEdge> edges) {
+    public UndirectedGraph(String graphName, Long customerId, Integer numVertices, List<UnweightedEdge> edges, List<Node> nodes) {
         this.graphName = graphName;
         this.customerId = customerId;
         this.numVertices = numVertices;
         this.edges = edges;
+        this.nodes = nodes;
     }
 
-    public UndirectedGraph(Long id,String graphName,Integer numVertices, Long customerId){
+    public UndirectedGraph(Long id, String graphName, Integer numVertices, Long customerId) {
         this.graphName = graphName;
         this.customerId = customerId;
         this.numVertices = numVertices;
-        this.id=id;
+        this.id = id;
     }
 
     @Id
@@ -43,6 +44,25 @@ public class UndirectedGraph {
 
     @Transient
     private List<UnweightedEdge> edges;
+
+    @Transient
+    private List<Node> nodes;
+
+    public String getGraphName() {
+        return graphName;
+    }
+
+    public void setGraphName(String graphName) {
+        this.graphName = graphName;
+    }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
+    }
 
     public Long getId() {
         return id;

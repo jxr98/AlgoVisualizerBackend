@@ -9,6 +9,13 @@ import javax.persistence.*;
 @Table(name="unweighted_edge")
 public class UnweightedEdge {
 
+    public UnweightedEdge(){}
+
+    public UnweightedEdge(Integer source,Integer target){
+        this.source=source;
+        this.target=target;
+    }
+
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
